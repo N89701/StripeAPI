@@ -1,0 +1,27 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - postgres_data2:/var/lib/postgresql/data/
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./.env
+  web:
+    build: ../django_stripe
+    ports:
+      - "8081:8081"
+    volumes:
+      - static_volume:/app/static/
+      - media_volume:/app/media/
+    depends_on:
+      - db
+    env_file:
+      - ./.env
+
+volumes:
+  static_volume:
+  media_volume:
+  postgres_data2:
